@@ -11,7 +11,7 @@ from streamlit_authenticator import Authenticate  # Explicitly import Authentica
 with open('config.yaml') as file:  # Use correct relative path
     config = yaml.load(file, Loader=SafeLoader)
 
-# ✅ Create the authenticator
+# Create the authenticator
 authenticator = Authenticate(
     config['credentials'],
     config['cookie']['name'],
@@ -19,7 +19,7 @@ authenticator = Authenticate(
     config['cookie']['expiry_days']
 )
 
-name, authentication_status, username = authenticator.login('Login', 'main')
+name, authentication_status, username = authenticator.login('Login', location='main')
 
 
 if st.session_state["authentication_status"]:
