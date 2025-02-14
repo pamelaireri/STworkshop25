@@ -11,26 +11,26 @@ from streamlit_authenticator import Authenticate  # Explicitly import Authentica
 with open('config.yaml') as file:  # Use correct relative path
     config = yaml.load(file, Loader=SafeLoader)
 
-# Create the authenticator
+# Remove 'preauthorized' as it is deprecated
 authenticator = Authenticate(
     config['credentials'],
     config['cookie']['name'],
     config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    
+    config['cookie']['expiry_days']
 )
 
-authenticator.login('Login', location='main')  
+#Fix: Use the correct login method (returns dict with 'name', 'authentication_status', etc.)
+authenticator.login()
 
+#Access authentication status and username correctly
 if authenticator.authentication_status:
-    st.success(f"Welcome {authenticator.username}!")  # access username via authenticator
+    st.success(f"Welcome {authenticator.username}!")
     st.write("You are now logged in.")
-    authenticator.logout("Logout", location="sidebar")  # Correct logout usage
+    authenticator.logout("Logout", location="sidebar")  
 elif authenticator.authentication_status is False:
     st.error("Username/password is incorrect.")
 elif authenticator.authentication_status is None:
     st.warning("Please enter your credentials.")
-
 
 # Get your OpenAI API key from environment variables 
 api_key = os.getenv("OPENAI_API_KEY") 
