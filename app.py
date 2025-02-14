@@ -79,6 +79,10 @@ def generate_image(text):
     return response.data[0].url
 
 # Cell 4: Streamlit UI 
+# Ensure session state variable exists
+if "image_generated" not in st.session_state:
+    st.session_state.image_generated = False  # Default to False
+
 user_input = st.text_area("Enter a brief for your post:", "How should you maintain a deployed model?")
 
 if st.button('Generate Post Content'):
@@ -89,16 +93,19 @@ if st.button('Generate Post Content'):
     with st.spinner('Generating Thumbnail...'):
         thumbnail_url = generate_image(user_input)  # Consider adjusting the prompt for image generation if needed
         st.image(thumbnail_url, caption='Generated Thumbnail')
+        # ✅ Update session state **AFTER** image is generated
+    st.session_state.image_generated = True
 
-#feedback
- #Title for feedback section
-st.write("### Feedback")
+# ✅ Show feedback **only after the image has been displayed**
+if st.session_state.image_generated:
+    st.write("### Feedback")
 
-# Create a thumbs-up/thumbs-down radio button
-feedback = st.radio("Did you find this helpful?", ["👍 Thumbs Up", "👎 Thumbs Down"], index=None)
+    # Feedback selection
+    feedback = st.radio("Did you find this helpful?", ["👍 Thumbs Up", "👎 Thumbs Down"], index=None)
 
-# Change text color based on selection
-if feedback == "👍 Thumbs Up":
-    st.success("Thank you for your positive feedback! ✅")
-elif feedback == "👎 Thumbs Down":
-    st.error("Sorry to hear that! We'll improve. ❌")
+    # Show confirmation message based on feedback
+    if feedback == "👍 Thumbs Up":
+        st.success("Thank you for your positive feedback! ✅")
+    elif feedback == "👎 Thumbs Down":
+        st.error("Sorry to hear that! We'll improve. ❌")
+        
