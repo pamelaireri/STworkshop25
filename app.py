@@ -19,18 +19,17 @@ authenticator = Authenticate(
     config['cookie']['expiry_days']
 )
 
-# Fix: Call login and check `authenticator.login_status`
-authenticator.login()
+name, authentication_status, username = authenticator.login('Login', 'main')
 
-# Fix: Use `authenticator.login_status`
-if authenticator.login_status:
-    st.success(f"Welcome {authenticator.username}!")  # Get username properly
-    st.write("You are now logged in.")
-    authenticator.logout("Logout", location="sidebar")  # Correct logout usage
-elif authenticator.login_status is False:
-    st.error("Username/password is incorrect.")
-else:
-    st.warning("Please enter your credentials.")
+
+if st.session_state["authentication_status"]:
+    authenticator.logout('Logout', 'main')
+    st.write(f'Welcome *{st.session_state["name"]}*')
+    st.title('Some content')
+elif st.session_state["authentication_status"] == False:
+    st.error('Username/password is incorrect')
+elif st.session_state["authentication_status"] == None:
+    st.warning('Please enter your username and password')
 
 # Get your OpenAI API key from environment variables 
 api_key = os.getenv("OPENAI_API_KEY") 
