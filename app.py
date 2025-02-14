@@ -2,6 +2,34 @@
 import streamlit as st
 from openai import OpenAI
 import os
+import yaml
+from yaml.loader import SafeLoader
+
+# Load configuration from YAML file
+with open('config.yaml') as file:  # Use correct relative path
+    config = yaml.load(file, Loader=SafeLoader)
+
+# Create the authenticator
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
+
+# Render login form
+name, authentication_status, username = authenticator.login('Login', 'main')
+
+# Authentication Logic
+if authentication_status:
+    st.success(f"Welcome {name}!")
+    st.write("You are now logged in.")
+    authenticator.logout("Logout", "sidebar")  # Logout button
+elif authentication_status is False:
+    st.error("Username/password is incorrect.")
+elif authentication_status is None:
+    st.warning("Please enter your credentials.")
 
 # Get your OpenAI API key from environment variables 
 api_key = os.getenv("OPENAI_API_KEY") 
