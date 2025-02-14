@@ -90,3 +90,5 @@ if st.button('Generate Post Content'):
         thumbnail_url = generate_image(user_input)  # Consider adjusting the prompt for image generation if needed
         st.image(thumbnail_url, caption='Generated Thumbnail')
 
+#feedback
+st.feedback("thumbs")
