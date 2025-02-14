@@ -18,11 +18,11 @@ authenticator = Authenticate(
     config['cookie']['key'],
     config['cookie']['expiry_days']
 )
-authenticator.login(location='main')
+authenticator.login(location='sidebar')
 
 
 if st.session_state["authentication_status"]:
-    authenticator.logout('Logout', 'main')
+    authenticator.logout('Logout', 'sidebar')
     st.write(f'Welcome *{st.session_state["name"]}*')
     st.title('Some content')
 elif st.session_state["authentication_status"] == False:
