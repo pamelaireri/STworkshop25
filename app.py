@@ -4,14 +4,15 @@ from openai import OpenAI
 import os
 import yaml
 from yaml.loader import SafeLoader
-import streamlit_authenticator as stauth  # Correct import
+import streamlit_authenticator as stauth
+from streamlit_authenticator import Authenticate  # Explicitly import Authenticate
 
 # Load configuration from YAML file
 with open('config.yaml') as file:  # Use correct relative path
     config = yaml.load(file, Loader=SafeLoader)
 
 # Create the authenticator
-authenticator = stauth.Authenticate(
+authenticator = Authenticate(
     config['credentials'],
     config['cookie']['name'],
     config['cookie']['key'],
