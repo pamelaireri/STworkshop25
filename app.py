@@ -91,4 +91,14 @@ if st.button('Generate Post Content'):
         st.image(thumbnail_url, caption='Generated Thumbnail')
 
 #feedback
-st.feedback("thumbs")
+ #Title for feedback section
+st.write("### Feedback")
+
+# Create a thumbs-up/thumbs-down radio button
+feedback = st.radio("Did you find this helpful?", ["👍 Thumbs Up", "👎 Thumbs Down"], index=None)
+
+# Change text color based on selection
+if feedback == "👍 Thumbs Up":
+    st.success("Thank you for your positive feedback! ✅")
+elif feedback == "👎 Thumbs Down":
+    st.error("Sorry to hear that! We'll improve. ❌")
