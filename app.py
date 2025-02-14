@@ -20,17 +20,15 @@ authenticator = Authenticate(
     
 )
 
-# Render login form
-login_state = authenticator.login('Login', location='main')
+name, authentication_status = authenticator.login('Login', location='main')  # Fix: Only two return values
 
-# Authentication Logic
-if login_state:
-    st.success(f"Welcome {authenticator.username}!")
+if authentication_status:
+    st.success(f"Welcome {name}!")
     st.write("You are now logged in.")
     authenticator.logout("Logout", location="sidebar")  # Logout button
-elif login_state is False:
+elif authentication_status is False:
     st.error("Username/password is incorrect.")
-elif login_state is None:
+elif authentication_status is None:
     st.warning("Please enter your credentials.")
 
 
