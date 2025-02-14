@@ -11,7 +11,7 @@ from streamlit_authenticator import Authenticate  # Explicitly import Authentica
 with open('config.yaml') as file:  # Use correct relative path
     config = yaml.load(file, Loader=SafeLoader)
 
-# Remove 'preauthorized' as it is deprecated
+# ✅ Create the authenticator
 authenticator = Authenticate(
     config['credentials'],
     config['cookie']['name'],
@@ -19,15 +19,15 @@ authenticator = Authenticate(
     config['cookie']['expiry_days']
 )
 
-#Fix: Use the correct login method (returns dict with 'name', 'authentication_status', etc.)
+# Fix: Call login and check `authenticator.login_status`
 authenticator.login()
 
-#Access authentication status and username correctly
-if authenticator.is_authenticated():
-    st.success(f"Welcome {authenticator.get_username()}!")  # Get username properly
+# Fix: Use `authenticator.login_status`
+if authenticator.login_status:
+    st.success(f"Welcome {authenticator.username}!")  # Get username properly
     st.write("You are now logged in.")
-    authenticator.logout("Logout", location="sidebar")  #  Correct logout usage
-elif authenticator.is_authenticated() is False:
+    authenticator.logout("Logout", location="sidebar")  # Correct logout usage
+elif authenticator.login_status is False:
     st.error("Username/password is incorrect.")
 else:
     st.warning("Please enter your credentials.")
