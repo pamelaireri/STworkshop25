@@ -18,8 +18,7 @@ authenticator = Authenticate(
     config['cookie']['key'],
     config['cookie']['expiry_days']
 )
-
-name, authentication_status, username = authenticator.login(location='main')
+authenticator.login(location='main')
 
 
 if st.session_state["authentication_status"]:
