@@ -21,17 +21,18 @@ authenticator = Authenticate(
 )
 
 # Render login form
-name, authentication_status, username = authenticator.login('Login', location='main')
+login_state = authenticator.login('Login', location='main')
 
 # Authentication Logic
-if authentication_status:
-    st.success(f"Welcome {name}!")
+if login_state:
+    st.success(f"Welcome {authenticator.username}!")
     st.write("You are now logged in.")
-    authenticator.logout("Logout", "sidebar")  # Logout button
-elif authentication_status is False:
+    authenticator.logout("Logout", location="sidebar")  # Logout button
+elif login_state is False:
     st.error("Username/password is incorrect.")
-elif authentication_status is None:
+elif login_state is None:
     st.warning("Please enter your credentials.")
+
 
 # Get your OpenAI API key from environment variables 
 api_key = os.getenv("OPENAI_API_KEY") 
