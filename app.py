@@ -20,15 +20,15 @@ authenticator = Authenticate(
     
 )
 
-name, authentication_status = authenticator.login('Login', location='main')  # Fix: Only two return values
+authenticator.login('Login', location='main')  
 
-if authentication_status:
-    st.success(f"Welcome {name}!")
+if authenticator.authentication_status:
+    st.success(f"Welcome {authenticator.username}!")  # access username via authenticator
     st.write("You are now logged in.")
-    authenticator.logout("Logout", location="sidebar")  # Logout button
-elif authentication_status is False:
+    authenticator.logout("Logout", location="sidebar")  # Correct logout usage
+elif authenticator.authentication_status is False:
     st.error("Username/password is incorrect.")
-elif authentication_status is None:
+elif authenticator.authentication_status is None:
     st.warning("Please enter your credentials.")
 
 
