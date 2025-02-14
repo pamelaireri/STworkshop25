@@ -21,7 +21,7 @@ authenticator = Authenticate(
 )
 
 # Render login form
-name, authentication_status, username = authenticator.login('Login', 'main')
+name, authentication_status, username = authenticator.login('Login', location='main')
 
 # Authentication Logic
 if authentication_status:
