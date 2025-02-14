@@ -4,6 +4,7 @@ from openai import OpenAI
 import os
 import yaml
 from yaml.loader import SafeLoader
+import streamlit_authenticator as stauth  # Correct import
 
 # Load configuration from YAML file
 with open('config.yaml') as file:  # Use correct relative path
